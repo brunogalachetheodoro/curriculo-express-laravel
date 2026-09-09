@@ -8,9 +8,9 @@
             <div class="bg-primaria rounded-[20px] p-5 py-12 lg:p-6 lg:py-12 w-[90%] lg:w-[80%]">
                 <div v-if="!cadastrando">
                     <div class="flex flex-col justify-center items-center">
-                        <input class="bg-secundaria border border-primaria rounded-[8px] my-[5px] placeholder-primaria pl-[10px] w-[90%] p-[5px] lg:p-[8px] lg:w-[75%] placeholder-opacity-60" type="email" placeholder="Email">
-                        <input class="bg-secundaria border border-primaria rounded-[8px] my-[5px] placeholder-primaria pl-[10px] w-[90%] p-[5px] lg:p-[8px] lg:w-[75%] placeholder-opacity-60" type="password" placeholder="Senha">
-                        <button class="bg-primaria hover:bg-secundaria border-2 border-secundaria rounded-[20px] my-[10px] w-[50%] p-[5px] lg:p-[8px] text-secundaria hover:text-primaria font-semibold transition-colors duration-1000 cursor-pointer">Login</button>
+                        <input class="bg-secundaria border border-primaria rounded-[8px] my-[5px] placeholder-primaria pl-[10px] w-[90%] p-[5px] lg:p-[8px] lg:w-[75%] placeholder-opacity-60" type="email" placeholder="Email" v-model="login.email">
+                        <input class="bg-secundaria border border-primaria rounded-[8px] my-[5px] placeholder-primaria pl-[10px] w-[90%] p-[5px] lg:p-[8px] lg:w-[75%] placeholder-opacity-60" type="password" placeholder="Senha" v-model="login.password">
+                        <button class="bg-primaria hover:bg-secundaria border-2 border-secundaria rounded-[20px] my-[10px] w-[50%] p-[5px] lg:p-[8px] text-secundaria hover:text-primaria font-semibold transition-colors duration-1000 cursor-pointer" @click="makeLogin">Login</button>
                         <p @click="cadastrando = true" class="text-secundaria cursor-pointer">Não possui uma conta?</p>
                     </div>
                 </div>
@@ -51,6 +51,18 @@
         const response = await axios.post('/register', register.value);
         console.log(response.data)
         router.push('/');
+    }
+
+
+    const login = ref({
+        email: '',
+        password: ''
+    })
+
+    const makeLogin = async() => {
+        const response = await axios.post('/login', login.value);
+        console.log(response.data)
+        router.push('/')
     }
 
 
