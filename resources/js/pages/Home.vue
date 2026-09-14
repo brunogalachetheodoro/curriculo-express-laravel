@@ -1,6 +1,6 @@
 <template>
-  <main class="bg-secundaria w-[100vw] text-primaria text-center flex justify-center">
-    <div class="mx-[20px] w-[80vw] lg:w-[600px]">
+  <main class="bg-secundaria w-full text-primaria text-center flex justify-center">
+    <div class="mx-[20px] w-full max-w-[600px] px-[20px] py-[30px]">
       <Topbar />
       <CurriculumFields />
       <Footer />
@@ -9,7 +9,7 @@
 </template>
 
 <script setup>
-  import Topbar from "../components/Topbar.vue";
-  import CurriculumFields from "../components/CurriculumFields.vue";
-  import Footer from "../components/Footer.vue";
+import Topbar from "../components/Topbar.vue";
+import CurriculumFields from "../components/CurriculumFields.vue";
+import Footer from "../components/Footer.vue";
 </script>

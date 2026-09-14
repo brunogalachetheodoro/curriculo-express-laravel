@@ -12,7 +12,7 @@
             />
 
             <input
-                v-model="curriculum.position"
+                v-model="curriculum.job_title"
                 class="bg-secundaria border border-primaria rounded-[8px] my-[5px] placeholder-primaria pl-[10px] p-[5px] placeholder-opacity-60"
                 placeholder="Cargo"
                 type="text"
@@ -50,20 +50,57 @@
                 Links como seu perfil no LinkedIn, portfólio ou o que mais julgar necessário!
             </p>
 
-            <div
-                v-for="(link, index) in curriculum.links"
-                :key="index"
-                class="flex w-full gap-4 my-[10px]"
-            >
+            <!-- Link 1 -->
+            <div class="flex w-full gap-4 my-[10px]">
                 <input
-                    v-model="link.name"
+                    v-model="curriculum.link_name"
                     type="text"
                     placeholder="Insira um nome"
                     class="bg-secundaria border border-primaria rounded-[8px] placeholder-primaria pl-[10px] p-[5px] flex-1 min-w-0 placeholder-opacity-60"
                 />
 
                 <input
-                    v-model="link.url"
+                    v-model="curriculum.link"
+                    type="url"
+                    placeholder="Insira um link"
+                    class="bg-secundaria border border-primaria rounded-[8px] placeholder-primaria pl-[10px] p-[5px] flex-1 min-w-0 placeholder-opacity-60"
+                />
+            </div>
+
+            <!-- Link 2 -->
+            <div
+                v-if="visibleLinks >= 2"
+                class="flex w-full gap-4 my-[10px]"
+            >
+                <input
+                    v-model="curriculum.link_name_2"
+                    type="text"
+                    placeholder="Insira um nome"
+                    class="bg-secundaria border border-primaria rounded-[8px] placeholder-primaria pl-[10px] p-[5px] flex-1 min-w-0 placeholder-opacity-60"
+                />
+
+                <input
+                    v-model="curriculum.link_2"
+                    type="url"
+                    placeholder="Insira um link"
+                    class="bg-secundaria border border-primaria rounded-[8px] placeholder-primaria pl-[10px] p-[5px] flex-1 min-w-0 placeholder-opacity-60"
+                />
+            </div>
+
+            <!-- Link 3 -->
+            <div
+                v-if="visibleLinks >= 3"
+                class="flex w-full gap-4 my-[10px]"
+            >
+                <input
+                    v-model="curriculum.link_name_3"
+                    type="text"
+                    placeholder="Insira um nome"
+                    class="bg-secundaria border border-primaria rounded-[8px] placeholder-primaria pl-[10px] p-[5px] flex-1 min-w-0 placeholder-opacity-60"
+                />
+
+                <input
+                    v-model="curriculum.link_3"
                     type="url"
                     placeholder="Insira um link"
                     class="bg-secundaria border border-primaria rounded-[8px] placeholder-primaria pl-[10px] p-[5px] flex-1 min-w-0 placeholder-opacity-60"
@@ -71,9 +108,9 @@
             </div>
 
             <button
-                @click="adicionarLink"
-                :disabled="curriculum.links.length >= 3"
-                class="bg-primaria text-secundaria text-[18px] font-semibold rounded-[8px] my-[5px] pl-[10px] p-[5px] disabled:opacity-50 disabled:cursor-not-allowed"
+                v-if="visibleLinks < 3"
+                @click="addLink"
+                class="bg-primaria text-secundaria text-[18px] font-semibold rounded-[8px] my-[5px] pl-[10px] p-[5px]"
             >
                 + Adicionar mais links
             </button>
@@ -89,11 +126,11 @@
 
             <div class="flex flex-col">
                 <input
-                    v-for="(skill, index) in curriculum.hardSkills"
+                    v-for="index in 5"
                     :key="index"
-                    v-model="curriculum.hardSkills[index]"
+                    v-model="curriculum[`hard_skill_${index}`]"
                     class="bg-secundaria border border-primaria rounded-[8px] my-[5px] placeholder-primaria pl-[10px] p-[5px] placeholder-opacity-60"
-                    :placeholder="hardSkillPlaceholders[index]"
+                    :placeholder="hardSkillPlaceholders[index - 1]"
                     type="text"
                 />
             </div>
@@ -123,41 +160,79 @@
                 Experiência Profissional
             </h2>
 
-            <div
-                v-for="(experience, index) in curriculum.experiences"
-                :key="index"
-                class="flex justify-center flex-col mt-[20px]"
-            >
+            <!-- Experience 1 -->
+            <div class="flex justify-center flex-col mt-[20px]">
                 <input
-                    v-model="experience.company"
+                    v-model="curriculum.company"
                     class="bg-secundaria border border-primaria rounded-[8px] my-[5px] placeholder-primaria pl-[10px] p-[5px] placeholder-opacity-60"
                     placeholder="Empresa"
                     type="text"
                 />
 
                 <input
-                    v-model="experience.position"
+                    v-model="curriculum.position"
                     class="bg-secundaria border border-primaria rounded-[8px] my-[5px] placeholder-primaria pl-[10px] p-[5px] placeholder-opacity-60"
                     placeholder="Cargo"
                     type="text"
                 />
 
                 <input
-                    v-model="experience.start"
+                    v-model="curriculum.start_date"
                     class="bg-secundaria border border-primaria rounded-[8px] my-[5px] placeholder-primaria pl-[10px] p-[5px] placeholder-opacity-60"
                     placeholder="Início"
                     type="text"
                 />
 
                 <input
-                    v-model="experience.end"
+                    v-model="curriculum.end_date"
                     class="bg-secundaria border border-primaria rounded-[8px] my-[5px] placeholder-primaria pl-[10px] p-[5px] placeholder-opacity-60"
                     placeholder="Fim (ou Atual)"
                     type="text"
                 />
 
                 <input
-                    v-model="experience.responsibilities"
+                    v-model="curriculum.responsibilities"
+                    class="bg-secundaria border border-primaria rounded-[8px] my-[5px] placeholder-primaria pl-[10px] p-[5px] placeholder-opacity-60"
+                    placeholder="Responsabilidades"
+                    type="text"
+                />
+            </div>
+
+            <!-- Experience 2 -->
+            <div
+                v-if="visibleExperiences >= 2"
+                class="flex justify-center flex-col mt-[20px]"
+            >
+                <input
+                    v-model="curriculum.company_2"
+                    class="bg-secundaria border border-primaria rounded-[8px] my-[5px] placeholder-primaria pl-[10px] p-[5px] placeholder-opacity-60"
+                    placeholder="Empresa"
+                    type="text"
+                />
+
+                <input
+                    v-model="curriculum.position_2"
+                    class="bg-secundaria border border-primaria rounded-[8px] my-[5px] placeholder-primaria pl-[10px] p-[5px] placeholder-opacity-60"
+                    placeholder="Cargo"
+                    type="text"
+                />
+
+                <input
+                    v-model="curriculum.start_date_2"
+                    class="bg-secundaria border border-primaria rounded-[8px] my-[5px] placeholder-primaria pl-[10px] p-[5px] placeholder-opacity-60"
+                    placeholder="Início"
+                    type="text"
+                />
+
+                <input
+                    v-model="curriculum.end_date_2"
+                    class="bg-secundaria border border-primaria rounded-[8px] my-[5px] placeholder-primaria pl-[10px] p-[5px] placeholder-opacity-60"
+                    placeholder="Fim (ou Atual)"
+                    type="text"
+                />
+
+                <input
+                    v-model="curriculum.responsibilities_2"
                     class="bg-secundaria border border-primaria rounded-[8px] my-[5px] placeholder-primaria pl-[10px] p-[5px] placeholder-opacity-60"
                     placeholder="Responsabilidades"
                     type="text"
@@ -165,8 +240,8 @@
             </div>
 
             <button
-                v-if="curriculum.experiences.length < 2"
-                @click="adicionarExperiencia"
+                v-if="visibleExperiences < 2"
+                @click="addExperience"
                 class="bg-primaria text-secundaria text-[18px] font-semibold rounded-[8px] my-[5px] pl-[10px] p-[5px]"
             >
                 Adicionar nova experiência
@@ -180,28 +255,28 @@
             </h2>
 
             <input
-                v-model="curriculum.education.degree"
+                v-model="curriculum.course_name"
                 class="bg-secundaria border border-primaria rounded-[8px] my-[5px] placeholder-primaria pl-[10px] p-[5px] placeholder-opacity-60"
                 placeholder="Nome do Curso (ex: Engenharia Civil)"
                 type="text"
             />
 
             <input
-                v-model="curriculum.education.institution"
+                v-model="curriculum.education_institution"
                 class="bg-secundaria border border-primaria rounded-[8px] my-[5px] placeholder-primaria pl-[10px] p-[5px] placeholder-opacity-60"
                 placeholder="Instituição de Ensino"
                 type="text"
             />
 
             <input
-                v-model="curriculum.education.startYear"
+                v-model="curriculum.education_start_year"
                 class="bg-secundaria border border-primaria rounded-[8px] my-[5px] placeholder-primaria pl-[10px] p-[5px] placeholder-opacity-60"
                 placeholder="Ano de Início"
                 type="text"
             />
 
             <input
-                v-model="curriculum.education.finishYear"
+                v-model="curriculum.education_end_year"
                 class="bg-secundaria border border-primaria rounded-[8px] my-[5px] placeholder-primaria pl-[10px] p-[5px] placeholder-opacity-60"
                 placeholder="Ano de Conclusão (ou em andamento)"
                 type="text"
@@ -219,11 +294,11 @@
             </p>
 
             <input
-                v-for="(info, index) in curriculum.additionalInfo"
+                v-for="index in 5"
                 :key="index"
-                v-model="curriculum.additionalInfo[index]"
+                v-model="curriculum[`info_${index}`]"
                 class="bg-secundaria border border-primaria rounded-[8px] my-[5px] placeholder-primaria pl-[10px] p-[5px] placeholder-opacity-60"
-                :placeholder="additionalInfoPlaceholders[index]"
+                :placeholder="additionalInfoPlaceholders[index - 1]"
                 type="text"
             />
         </div>
@@ -231,57 +306,90 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, watch, onMounted } from 'vue';
+import axios from 'axios';
 
 const curriculum = ref({
     name: '',
-    position: '',
+    job_title: '',
     phone: '',
     email: '',
     location: '',
 
-    links: [
-        {
-            name: '',
-            url: ''
-        }
-    ],
+    link_name: '',
+    link: '',
+    link_name_2: '',
+    link_2: '',
+    link_name_3: '',
+    link_3: '',
 
-    hardSkills: [
-        '',
-        '',
-        '',
-        '',
-        ''
-    ],
+    hard_skill_1: '',
+    hard_skill_2: '',
+    hard_skill_3: '',
+    hard_skill_4: '',
+    hard_skill_5: '',
 
     about: '',
 
-    experiences: [
-        {
-            company: '',
-            position: '',
-            start: '',
-            end: '',
-            responsibilities: ''
-        }
-    ],
+    company: '',
+    position: '',
+    start_date: '',
+    end_date: '',
+    responsibilities: '',
 
-    education: {
-        degree: '',
-        institution: '',
-        startYear: '',
-        finishYear: ''
-    },
+    company_2: '',
+    position_2: '',
+    start_date_2: '',
+    end_date_2: '',
+    responsibilities_2: '',
 
-    additionalInfo: [
-        '',
-        '',
-        '',
-        '',
-        ''
-    ]
+    course_name: '',
+    education_institution: '',
+    education_start_year: '',
+    education_end_year: '',
+
+    info_1: '',
+    info_2: '',
+    info_3: '',
+    info_4: '',
+    info_5: '',
 });
+
+const loadCurriculum = async () => {
+    try {
+        const response = await axios.get('/curriculum-fields');
+
+        if (response.data.curriculum) {
+            Object.assign(curriculum.value, response.data.curriculum);
+        }
+    } catch (error) {
+        console.log('Error loading curriculum:', error.response?.data);
+    }
+};
+
+onMounted(() => {
+    loadCurriculum();
+});
+
+let debounceTimeout;
+
+watch(
+    curriculum,
+    (newCurriculum)=>{
+        clearTimeout(debounceTimeout);
+
+        debounceTimeout = setTimeout(async () => {
+            try{
+                await axios.put('/curriculum', newCurriculum);
+                console.log('Curriculum saved successfully.');
+            } catch(error) {
+                console.log('error saving curriculum:', error.response?.data);
+            }
+        }, 1000);
+    },
+    {deep: true}
+)
+
 
 const hardSkillPlaceholders = [
     'Ex: JavaScript',
@@ -299,24 +407,21 @@ const additionalInfoPlaceholders = [
     'Ex: Certificado Node.JS'
 ];
 
-const adicionarLink = () => {
-    if (curriculum.value.links.length < 3) {
-        curriculum.value.links.push({
-            name: '',
-            url: ''
-        });
+const visibleLinks = ref(1);
+
+const addLink = () => {
+    if (visibleLinks.value < 3) {
+        visibleLinks.value++;
     }
 };
 
-const adicionarExperiencia = () => {
-    if (curriculum.value.experiences.length < 2) {
-        curriculum.value.experiences.push({
-            company: '',
-            position: '',
-            start: '',
-            end: '',
-            responsibilities: ''
-        });
+const visibleExperiences = ref(1);
+
+const addExperience = () => {
+    if (visibleExperiences.value < 2) {
+        visibleExperiences.value++;
     }
 };
+
+
 </script>
