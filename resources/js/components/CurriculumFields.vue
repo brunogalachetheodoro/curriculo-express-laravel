@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div ref="formContainer">
         <!-- Dados Pessoais -->
         <div class="flex justify-center flex-col mt-[20px]">
             <h2 class="font-bold text-[18px]">Dados Pessoais</h2>
@@ -309,6 +309,8 @@
 import { ref, watch, onMounted } from 'vue';
 import axios from 'axios';
 
+const formContainer = ref(null);
+
 const curriculum = ref({
     name: '',
     job_title: '',
@@ -369,6 +371,13 @@ const loadCurriculum = async () => {
 
 onMounted(() => {
     loadCurriculum();
+
+    const fields = formContainer.value.querySelectorAll('input, textarea, h2, p, button');
+
+    fields.forEach((field, index) => {
+        field.classList.add('field-enter');
+        field.style.animationDelay = `${index * 100}ms`;
+    });
 });
 
 let debounceTimeout;
@@ -425,3 +434,24 @@ const addExperience = () => {
 
 
 </script>
+
+<style scoped>
+@keyframes field-enter {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+        filter: blur(4px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+        filter: blur(0);
+    }
+}
+
+.field-enter {
+    opacity: 0;
+    animation: field-enter 700ms ease-out forwards;
+}
+</style>
