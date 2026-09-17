@@ -1,0 +1,88 @@
+{
+    "auth": {
+        "login": "Login",
+        "register": "Cadastro",
+        "email": "Email",
+        "password": "Senha",
+        "name": "Nome",
+        "confirmPassword": "Confirmar senha",
+        "loginButton": "Login",
+        "registerButton": "Cadastrar",
+        "noAccount": "Não possui uma conta?",
+        "alreadyAccount": "Já possui uma conta?"
+    },
+    "curriculum": {
+        "personalData": "Dados Pessoais",
+        "name": "Nome",
+        "jobTitle": "Cargo",
+        "phone": "Telefone",
+        "email": "Email",
+        "location": "Local",
+
+        "importantLinks": "Links Importantes",
+        "importantLinksDescription": "Links como seu perfil no LinkedIn, portfólio ou o que mais julgar necessário!",
+        "enterName": "Insira um nome",
+        "enterLink": "Insira um link",
+        "addMoreLinks": "+ Adicionar mais links",
+
+        "hardSkills": "Hard Skills",
+        "hardSkillsDescription": "Hard skills são habilidades técnicas e conhecimentos específicos.",
+
+        "objectiveAbout": "Objetivo / Sobre",
+        "objectiveAboutDescription": "Descreva aqui seu objetivo profissional ou fale um pouco sobre você, suas experiências e metas.",
+        "writeAbout": "Escreva sobre...",
+
+        "professionalExperience": "Experiência Profissional",
+        "company": "Empresa",
+        "position": "Cargo",
+        "start": "Início",
+        "end": "Fim (ou Atual)",
+        "responsibilities": "Responsabilidades",
+        "addExperience": "Adicionar nova experiência",
+
+        "education": "Formação",
+        "courseName": "Nome do Curso (ex: Engenharia Civil)",
+        "educationInstitution": "Instituição de Ensino",
+        "educationStartYear": "Ano de Início",
+        "educationEndYear": "Ano de Conclusão (ou em andamento)",
+
+        "additionalInformation": "Informações Complementares",
+        "additionalInformationDescription": "Adicione informações como inglês, cursos complementares ou serviços voluntários",
+
+        "hardSkillExamples": {
+            "1": "Ex: JavaScript",
+            "2": "Ex: Excel",
+            "3": "Ex: Edição de vídeo",
+            "4": "Ex: Inglês fluente",
+            "5": "Ex: Operador de Empilhadeira"
+        },
+
+        "additionalInfoExamples": {
+            "1": "Ex: Inglês Avançado",
+            "2": "Ex: Curso Online Marketing Digital",
+            "3": "Ex: Voluntário na empresa X como Desenvolvedor de Software",
+            "4": "Ex: Excel Avançado",
+            "5": "Ex: Certificado Node.JS"
+        },
+        "fontSize": {
+            "title": "Escolha o tamanho da fonte!",
+            "verySmall": "Muito Pequeno",
+            "small": "Pequeno",
+            "medium": "Médio",
+            "large": "Grande",
+            "veryLarge": "Muito Grande"
+        },
+        "actions": {
+            "preview": "Visualizar",
+            "download": "Download"
+        },
+        "pdf": {
+            "importantLinks": "Links Importantes",
+            "about": "Sobre",
+            "education": "Formação",
+            "professionalExperience": "Experiência Profissional",
+            "additionalInformation": "Informações Complementares"
+        }
+    }
+
+}

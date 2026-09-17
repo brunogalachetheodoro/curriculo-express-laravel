@@ -1,0 +1,88 @@
+{
+    "auth": {
+        "login": "Login",
+        "register": "Register",
+        "email": "Email",
+        "password": "Password",
+        "name": "Name",
+        "confirmPassword": "Confirm password",
+        "loginButton": "Login",
+        "registerButton": "Register",
+        "noAccount": "Don't have an account?",
+        "alreadyAccount": "Already have an account?"
+    },
+    "curriculum": {
+        "personalData": "Personal Information",
+        "name": "Name",
+        "jobTitle": "Job Title",
+        "phone": "Phone",
+        "email": "Email",
+        "location": "Location",
+
+        "importantLinks": "Important Links",
+        "importantLinksDescription": "Links such as your LinkedIn profile, portfolio, or anything else you consider necessary!",
+        "enterName": "Enter a name",
+        "enterLink": "Enter a link",
+        "addMoreLinks": "+ Add more links",
+
+        "hardSkills": "Hard Skills",
+        "hardSkillsDescription": "Hard skills are technical abilities and specific knowledge.",
+
+        "objectiveAbout": "Objective / About",
+        "objectiveAboutDescription": "Describe your professional objective or tell us a little about yourself, your experience, and your goals.",
+        "writeAbout": "Write about yourself...",
+
+        "professionalExperience": "Professional Experience",
+        "company": "Company",
+        "position": "Position",
+        "start": "Start",
+        "end": "End (or Current)",
+        "responsibilities": "Responsibilities",
+        "addExperience": "Add new experience",
+
+        "education": "Education",
+        "courseName": "Course Name (e.g. Civil Engineering)",
+        "educationInstitution": "Educational Institution",
+        "educationStartYear": "Start Year",
+        "educationEndYear": "Graduation Year (or in progress)",
+
+        "additionalInformation": "Additional Information",
+        "additionalInformationDescription": "Add information such as English proficiency, additional courses, or volunteer work",
+
+        "hardSkillExamples": {
+            "1": "E.g. JavaScript",
+            "2": "E.g. Excel",
+            "3": "E.g. Video Editing",
+            "4": "E.g. Fluent English",
+            "5": "E.g. Forklift Operator"
+        },
+
+        "additionalInfoExamples": {
+            "1": "E.g. Advanced English",
+            "2": "E.g. Digital Marketing Online Course",
+            "3": "E.g. Volunteer at Company X as a Software Developer",
+            "4": "E.g. Advanced Excel",
+            "5": "E.g. Node.js Certificate"
+        },
+        "fontSize": {
+            "title": "Choose the font size!",
+            "verySmall": "Very Small",
+            "small": "Small",
+            "medium": "Medium",
+            "large": "Large",
+            "veryLarge": "Very Large"
+        },
+        "actions": {
+            "preview": "Preview",
+            "download": "Download"
+        },
+        "pdf": {
+            "importantLinks": "Important Links",
+            "about": "About",
+            "education": "Education",
+            "professionalExperience": "Professional Experience",
+            "additionalInformation": "Additional Information"
+        }
+    }
+
+}

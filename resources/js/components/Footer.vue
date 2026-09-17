@@ -3,10 +3,10 @@
     <FontSize/>
     <div class="flex justify-around py-[20px]">
       <button class="border border-primaria font-bold p-[5px] w-[150px] rounded-[10px] cursor-pointer" @click="openModal">
-        Visualizar
+        {{ t('curriculum.actions.preview') }}
       </button>
       <button class="bg-primaria text-secundaria font-bold p-[5px] w-[150px] rounded-[10px] cursor-pointer" @click="downloadPDF">
-        Download
+        {{ t('curriculum.actions.download') }}
       </button>
     </div>
   </div>
@@ -26,6 +26,9 @@ import Curriculum from './Curriculum.vue'
 import CurriculumModal from './CurriculumModal.vue'
 import FontSize from './FontSize.vue'
 import html2pdf from 'html2pdf.js/dist/html2pdf.bundle'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 const isOpen = ref(false)
 const curriculum = ref(null)
