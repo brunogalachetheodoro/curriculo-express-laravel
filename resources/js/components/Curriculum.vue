@@ -41,7 +41,7 @@
         class="font-bold"
         :style="{ fontSize: 1.2 * baseSizeProp * fontSizeMultiplier + 'px' }"
       >
-        Links Importantes
+        {{ t('curriculum.pdf.importantLinks') }}
       </h2>
 
       <div v-if="curriculum?.link_name" class="flex mt-[20px]">
@@ -78,7 +78,7 @@
         class="font-bold"
         :style="{ fontSize: 1.2 * baseSizeProp * fontSizeMultiplier + 'px' }"
       >
-        Sobre
+        {{ t('curriculum.pdf.about') }}
       </h2>
 
       <p>{{ curriculum?.about || '' }}</p>
@@ -90,7 +90,7 @@
         class="font-bold"
         :style="{ fontSize: 1.2 * baseSizeProp * fontSizeMultiplier + 'px' }"
       >
-        Educação
+        {{ t('curriculum.pdf.education') }}
       </h2>
 
       <p>{{ curriculum?.course_name || '' }}</p>
@@ -115,7 +115,7 @@
         class="font-bold"
         :style="{ fontSize: 1.2 * baseSizeProp * fontSizeMultiplier + 'px' }"
       >
-        Experiência Profissional
+        {{ t('curriculum.pdf.professionalExperience') }}
       </h2>
 
       <!-- Experiência 1 -->
@@ -184,7 +184,7 @@
         class="font-bold"
         :style="{ fontSize: 1.2 * baseSizeProp * fontSizeMultiplier + 'px' }"
       >
-        Informações Complementares
+        {{ t('curriculum.pdf.additionalInformation') }}
       </h2>
 
       <ul>
@@ -214,6 +214,9 @@
 
 <script setup>
 import { computed, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 const props = defineProps({
   curriculum: {

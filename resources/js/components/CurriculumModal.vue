@@ -13,14 +13,14 @@
         <!-- Dados Pessoais -->
         <p
           class="font-bold"
-          :style="{ fontSize: `calc(18px * ${fontSizeMultiplier})` }"
+          :style="{ fontSize: `18px * ${fontSizeMultiplier}` }"
         >
           {{ curriculum.name }}
         </p>
 
         <p
           class="font-semibold"
-          :style="{ fontSize: `calc(12px * ${fontSizeMultiplier})` }"
+          :style="{ fontSize: `12px * ${fontSizeMultiplier}` }"
         >
           {{ curriculum.job_title }}
         </p>
@@ -28,7 +28,7 @@
         <!-- Hard Skills -->
         <div
           class="flex w-full mb-[10px] md:mb-[30px]"
-          :style="{ fontSize: `calc(10px * ${fontSizeMultiplier})` }"
+          :style="{ fontSize: `10px * ${fontSizeMultiplier}` }"
         >
           <p>{{ curriculum.hard_skill_1 }}</p>
           <p class="ml-[10px] md:ml-[20px]">{{ curriculum.hard_skill_2 }}</p>
@@ -40,7 +40,7 @@
         <!-- Contato -->
         <div
           class="flex mb-[10px] md:mb-[30px]"
-          :style="{ fontSize: `calc(12px * ${fontSizeMultiplier})` }"
+          :style="{ fontSize: `12px * ${fontSizeMultiplier}` }"
         >
           <p>{{ curriculum.phone }}</p>
           <p class="ml-[30px]">{{ curriculum.email }}</p>
@@ -50,13 +50,13 @@
         <!-- Links -->
         <div
           class="mb-[10px] md:mb-[30px]"
-          :style="{ fontSize: `calc(12px * ${fontSizeMultiplier})` }"
+          :style="{ fontSize: `12px * ${fontSizeMultiplier}` }"
         >
           <h2
             class="font-bold"
-            :style="{ fontSize: `calc(16px * ${fontSizeMultiplier})` }"
+            :style="{ fontSize: `16px * ${fontSizeMultiplier}` }"
           >
-            Links Importantes
+            {{ t('curriculum.pdf.importantLinks') }}
           </h2>
 
           <div class="flex" v-if="curriculum.link_name">
@@ -75,13 +75,13 @@
         <!-- Sobre -->
         <div
           class="mb-[10px] md:mb-[30px]"
-          :style="{ fontSize: `calc(12px * ${fontSizeMultiplier})` }"
+          :style="{ fontSize: `12px * ${fontSizeMultiplier}` }"
         >
           <h2
             class="font-bold"
-            :style="{ fontSize: `calc(16px * ${fontSizeMultiplier})` }"
+            :style="{ fontSize: `16px * ${fontSizeMultiplier}` }"
           >
-            Sobre
+            {{ t('curriculum.pdf.about') }}
           </h2>
 
           <p>{{ curriculum.about }}</p>
@@ -90,13 +90,13 @@
         <!-- Educação -->
         <div
           class="mb-[10px] md:mb-[30px]"
-          :style="{ fontSize: `calc(12px * ${fontSizeMultiplier})` }"
+          :style="{ fontSize: `12px * ${fontSizeMultiplier}` }"
         >
           <h2
             class="font-bold"
-            :style="{ fontSize: `calc(16px * ${fontSizeMultiplier})` }"
+            :style="{ fontSize: `16px * ${fontSizeMultiplier}` }"
           >
-            Educação
+            {{ t('curriculum.pdf.education') }}
           </h2>
 
           <p>{{ curriculum.course_name }}</p>
@@ -119,13 +119,13 @@
         <!-- Experiências -->
         <div
           class="mb-[10px] md:mb-[30px]"
-          :style="{ fontSize: `calc(12px * ${fontSizeMultiplier})` }"
+          :style="{ fontSize: `12px * ${fontSizeMultiplier}` }"
         >
           <h2
             class="font-bold"
-            :style="{ fontSize: `calc(16px * ${fontSizeMultiplier})` }"
+            :style="{ fontSize: `16px * ${fontSizeMultiplier}` }"
           >
-            Experiência Profissional
+            {{ t('curriculum.pdf.professionalExperience') }}
           </h2>
 
           <!-- Experiência 1 -->
@@ -191,13 +191,13 @@
         <!-- Informações Complementares -->
         <div
           class="mb-[10px] md:mb-[30px]"
-          :style="{ fontSize: `calc(12px * ${fontSizeMultiplier})` }"
+          :style="{ fontSize: `12px * ${fontSizeMultiplier}` }"
         >
           <h2
             class="font-bold"
-            :style="{ fontSize: `calc(16px * ${fontSizeMultiplier})` }"
+            :style="{ fontSize: `16px * ${fontSizeMultiplier}` }"
           >
-            Informações Complementares
+            {{ t('curriculum.pdf.additionalInformation') }}
           </h2>
 
           <ul class="list-disc ml-[20px]">
@@ -230,6 +230,9 @@
 
 <script setup>
 import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 const props = defineProps({
   curriculum: {

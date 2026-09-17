@@ -1,7 +1,7 @@
 <template>
+  <Topbar />
   <main class="bg-secundaria w-full text-primaria text-center flex justify-center">
     <div class="mx-[20px] w-full max-w-[600px] px-[20px] py-[30px]">
-      <Topbar />
       <CurriculumFields />
       <Footer />
     </div>

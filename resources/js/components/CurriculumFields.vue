@@ -2,40 +2,40 @@
     <div ref="formContainer">
         <!-- Dados Pessoais -->
         <div class="flex justify-center flex-col mt-[20px]">
-            <h2 class="font-bold text-[18px]">Dados Pessoais</h2>
+            <h2 class="font-bold text-[18px]">{{ t('curriculum.personalData') }}</h2>
 
             <input
                 v-model="curriculum.name"
                 class="bg-secundaria border border-primaria rounded-[8px] my-[5px] placeholder-primaria pl-[10px] p-[5px] placeholder-opacity-60"
-                placeholder="Nome"
+                :placeholder="t('curriculum.name')"
                 type="text"
             />
 
             <input
                 v-model="curriculum.job_title"
                 class="bg-secundaria border border-primaria rounded-[8px] my-[5px] placeholder-primaria pl-[10px] p-[5px] placeholder-opacity-60"
-                placeholder="Cargo"
+                :placeholder="t('curriculum.jobTitle')"
                 type="text"
             />
 
             <input
                 v-model="curriculum.phone"
                 class="bg-secundaria border border-primaria rounded-[8px] my-[5px] placeholder-primaria pl-[10px] p-[5px] placeholder-opacity-60"
-                placeholder="Telefone"
+                :placeholder="t('curriculum.phone')"
                 type="text"
             />
 
             <input
                 v-model="curriculum.email"
                 class="bg-secundaria border border-primaria rounded-[8px] my-[5px] placeholder-primaria pl-[10px] p-[5px] placeholder-opacity-60"
-                placeholder="Email"
+                :placeholder="t('curriculum.email')"
                 type="email"
             />
 
             <input
                 v-model="curriculum.location"
                 class="bg-secundaria border border-primaria rounded-[8px] my-[5px] placeholder-primaria pl-[10px] p-[5px] placeholder-opacity-60"
-                placeholder="Local"
+                :placeholder="t('curriculum.location')"
                 type="text"
             />
         </div>
@@ -43,11 +43,11 @@
         <!-- Links -->
         <div class="flex flex-col my-[5px] mt-[20px]">
             <h2 class="text-[18px] my-[5px] font-bold">
-                Links Importantes
+                {{ t('curriculum.importantLinks') }}
             </h2>
 
             <p class="my-[5px] text-[14px]">
-                Links como seu perfil no LinkedIn, portfólio ou o que mais julgar necessário!
+                {{ t('curriculum.importantLinksDescription') }}
             </p>
 
             <!-- Link 1 -->
@@ -55,14 +55,14 @@
                 <input
                     v-model="curriculum.link_name"
                     type="text"
-                    placeholder="Insira um nome"
+                    :placeholder="t('curriculum.enterName')"
                     class="bg-secundaria border border-primaria rounded-[8px] placeholder-primaria pl-[10px] p-[5px] flex-1 min-w-0 placeholder-opacity-60"
                 />
 
                 <input
                     v-model="curriculum.link"
                     type="url"
-                    placeholder="Insira um link"
+                    :placeholder="t('curriculum.enterLink')"
                     class="bg-secundaria border border-primaria rounded-[8px] placeholder-primaria pl-[10px] p-[5px] flex-1 min-w-0 placeholder-opacity-60"
                 />
             </div>
@@ -75,14 +75,14 @@
                 <input
                     v-model="curriculum.link_name_2"
                     type="text"
-                    placeholder="Insira um nome"
+                    :placeholder="t('curriculum.enterName')"
                     class="bg-secundaria border border-primaria rounded-[8px] placeholder-primaria pl-[10px] p-[5px] flex-1 min-w-0 placeholder-opacity-60"
                 />
 
                 <input
                     v-model="curriculum.link_2"
                     type="url"
-                    placeholder="Insira um link"
+                    :placeholder="t('curriculum.enterLink')"
                     class="bg-secundaria border border-primaria rounded-[8px] placeholder-primaria pl-[10px] p-[5px] flex-1 min-w-0 placeholder-opacity-60"
                 />
             </div>
@@ -95,14 +95,14 @@
                 <input
                     v-model="curriculum.link_name_3"
                     type="text"
-                    placeholder="Insira um nome"
+                    :placeholder="t('curriculum.enterName')"
                     class="bg-secundaria border border-primaria rounded-[8px] placeholder-primaria pl-[10px] p-[5px] flex-1 min-w-0 placeholder-opacity-60"
                 />
 
                 <input
                     v-model="curriculum.link_3"
                     type="url"
-                    placeholder="Insira um link"
+                    :placeholder="t('curriculum.enterLink')"
                     class="bg-secundaria border border-primaria rounded-[8px] placeholder-primaria pl-[10px] p-[5px] flex-1 min-w-0 placeholder-opacity-60"
                 />
             </div>
@@ -112,16 +112,16 @@
                 @click="addLink"
                 class="bg-primaria text-secundaria text-[18px] font-semibold rounded-[8px] my-[5px] pl-[10px] p-[5px]"
             >
-                + Adicionar mais links
+                {{ t('curriculum.addMoreLinks') }}
             </button>
         </div>
 
         <!-- Hard Skills -->
         <div class="flex justify-center flex-col mt-[20px]">
-            <h2 class="font-bold text-[18px]">Hard Skills</h2>
+            <h2 class="font-bold text-[18px]">{{ t('curriculum.hardSkills') }}</h2>
 
             <p class="my-[10px]">
-                Hard skills são habilidades técnicas e conhecimentos específicos.
+                {{ t('curriculum.hardSkillsDescription') }}
             </p>
 
             <div class="flex flex-col">
@@ -139,25 +139,24 @@
         <!-- Objetivo / Sobre -->
         <div class="flex flex-col my-[5px] mt-[20px]">
             <h2 class="text-[18px] my-[5px] font-bold">
-                Objetivo / Sobre
+                {{ t('curriculum.objectiveAbout') }}
             </h2>
 
             <p class="mb-[20px]">
-                Descreva aqui seu objetivo profissional ou fale um pouco sobre você,
-                suas experiências e metas.
+                {{ t('curriculum.objectiveAboutDescription') }}
             </p>
 
             <textarea
                 v-model="curriculum.about"
                 class="pl-[10px] bg-secundaria border border-primaria placeholder-primaria rounded h-[200px] placeholder-opacity-60"
-                placeholder="Escreva sobre..."
+                :placeholder="t('curriculum.writeAbout')"
             ></textarea>
         </div>
 
         <!-- Experiência Profissional -->
         <div class="flex justify-center flex-col mt-[50px]">
             <h2 class="font-bold text-[18px]">
-                Experiência Profissional
+                {{ t('curriculum.professionalExperience') }}
             </h2>
 
             <!-- Experience 1 -->
@@ -165,35 +164,35 @@
                 <input
                     v-model="curriculum.company"
                     class="bg-secundaria border border-primaria rounded-[8px] my-[5px] placeholder-primaria pl-[10px] p-[5px] placeholder-opacity-60"
-                    placeholder="Empresa"
+                    :placeholder="t('curriculum.company')"
                     type="text"
                 />
 
                 <input
                     v-model="curriculum.position"
                     class="bg-secundaria border border-primaria rounded-[8px] my-[5px] placeholder-primaria pl-[10px] p-[5px] placeholder-opacity-60"
-                    placeholder="Cargo"
+                    :placeholder="t('curriculum.position')"
                     type="text"
                 />
 
                 <input
                     v-model="curriculum.start_date"
                     class="bg-secundaria border border-primaria rounded-[8px] my-[5px] placeholder-primaria pl-[10px] p-[5px] placeholder-opacity-60"
-                    placeholder="Início"
+                    :placeholder="t('curriculum.start')"
                     type="text"
                 />
 
                 <input
                     v-model="curriculum.end_date"
                     class="bg-secundaria border border-primaria rounded-[8px] my-[5px] placeholder-primaria pl-[10px] p-[5px] placeholder-opacity-60"
-                    placeholder="Fim (ou Atual)"
+                    :placeholder="t('curriculum.end')"
                     type="text"
                 />
 
                 <input
                     v-model="curriculum.responsibilities"
                     class="bg-secundaria border border-primaria rounded-[8px] my-[5px] placeholder-primaria pl-[10px] p-[5px] placeholder-opacity-60"
-                    placeholder="Responsabilidades"
+                    :placeholder="t('curriculum.responsibilities')"
                     type="text"
                 />
             </div>
@@ -206,35 +205,35 @@
                 <input
                     v-model="curriculum.company_2"
                     class="bg-secundaria border border-primaria rounded-[8px] my-[5px] placeholder-primaria pl-[10px] p-[5px] placeholder-opacity-60"
-                    placeholder="Empresa"
+                    :placeholder="t('curriculum.company')"
                     type="text"
                 />
 
                 <input
                     v-model="curriculum.position_2"
                     class="bg-secundaria border border-primaria rounded-[8px] my-[5px] placeholder-primaria pl-[10px] p-[5px] placeholder-opacity-60"
-                    placeholder="Cargo"
+                    :placeholder="t('curriculum.position')"
                     type="text"
                 />
 
                 <input
                     v-model="curriculum.start_date_2"
                     class="bg-secundaria border border-primaria rounded-[8px] my-[5px] placeholder-primaria pl-[10px] p-[5px] placeholder-opacity-60"
-                    placeholder="Início"
+                    :placeholder="t('curriculum.start')"
                     type="text"
                 />
 
                 <input
                     v-model="curriculum.end_date_2"
                     class="bg-secundaria border border-primaria rounded-[8px] my-[5px] placeholder-primaria pl-[10px] p-[5px] placeholder-opacity-60"
-                    placeholder="Fim (ou Atual)"
+                    :placeholder="t('curriculum.end')"
                     type="text"
                 />
 
                 <input
                     v-model="curriculum.responsibilities_2"
                     class="bg-secundaria border border-primaria rounded-[8px] my-[5px] placeholder-primaria pl-[10px] p-[5px] placeholder-opacity-60"
-                    placeholder="Responsabilidades"
+                    :placeholder="t('curriculum.responsibilities')"
                     type="text"
                 />
             </div>
@@ -244,41 +243,41 @@
                 @click="addExperience"
                 class="bg-primaria text-secundaria text-[18px] font-semibold rounded-[8px] my-[5px] pl-[10px] p-[5px]"
             >
-                Adicionar nova experiência
+                {{ t('curriculum.addExperience') }}
             </button>
         </div>
 
         <!-- Formação -->
         <div class="flex justify-center flex-col mt-[20px]">
             <h2 class="font-bold text-[18px]">
-                Formação
+                {{ t('curriculum.education') }}
             </h2>
 
             <input
                 v-model="curriculum.course_name"
                 class="bg-secundaria border border-primaria rounded-[8px] my-[5px] placeholder-primaria pl-[10px] p-[5px] placeholder-opacity-60"
-                placeholder="Nome do Curso (ex: Engenharia Civil)"
+                :placeholder="t('curriculum.courseName')"
                 type="text"
             />
 
             <input
                 v-model="curriculum.education_institution"
                 class="bg-secundaria border border-primaria rounded-[8px] my-[5px] placeholder-primaria pl-[10px] p-[5px] placeholder-opacity-60"
-                placeholder="Instituição de Ensino"
+                :placeholder="t('curriculum.educationInstitution')"
                 type="text"
             />
 
             <input
                 v-model="curriculum.education_start_year"
                 class="bg-secundaria border border-primaria rounded-[8px] my-[5px] placeholder-primaria pl-[10px] p-[5px] placeholder-opacity-60"
-                placeholder="Ano de Início"
+                :placeholder="t('curriculum.educationStartYear')"
                 type="text"
             />
 
             <input
                 v-model="curriculum.education_end_year"
                 class="bg-secundaria border border-primaria rounded-[8px] my-[5px] placeholder-primaria pl-[10px] p-[5px] placeholder-opacity-60"
-                placeholder="Ano de Conclusão (ou em andamento)"
+                :placeholder="t('curriculum.educationEndYear')"
                 type="text"
             />
         </div>
@@ -286,11 +285,11 @@
         <!-- Informações Complementares -->
         <div class="flex justify-center flex-col mt-[20px]">
             <h2 class="font-bold text-[18px]">
-                Informações Complementares
+                {{ t('curriculum.additionalInformation') }}
             </h2>
 
             <p class="my-[10px]">
-                Adicione informações como inglês, cursos complementares ou serviços voluntários
+                {{ t('curriculum.additionalInformationDescription') }}
             </p>
 
             <input
@@ -306,10 +305,13 @@
 </template>
 
 <script setup>
-import { ref, watch, onMounted } from 'vue';
+import { ref, watch, onMounted, computed } from 'vue';
 import axios from 'axios';
+import { useI18n } from 'vue-i18n';
 
 const formContainer = ref(null);
+
+const { t } = useI18n();
 
 const curriculum = ref({
     name: '',
@@ -400,21 +402,21 @@ watch(
 )
 
 
-const hardSkillPlaceholders = [
-    'Ex: JavaScript',
-    'Ex: Excel',
-    'Ex: Edição de vídeo',
-    'Ex: Inglês fluente',
-    'Ex: Operador de Empilhadeira'
-];
+const hardSkillPlaceholders = computed(() => [
+    t('curriculum.hardSkillExamples.1'),
+    t('curriculum.hardSkillExamples.2'),
+    t('curriculum.hardSkillExamples.3'),
+    t('curriculum.hardSkillExamples.4'),
+    t('curriculum.hardSkillExamples.5')
+]);
 
-const additionalInfoPlaceholders = [
-    'Ex: Inglês Avançado',
-    'Ex: Curso Online Marketing Digital',
-    'Ex: Voluntário na empresa X como Desenvolvedor de Software',
-    'Ex: Excel Avançado',
-    'Ex: Certificado Node.JS'
-];
+const additionalInfoPlaceholders = computed(() => [
+    t('curriculum.additionalInfoExamples.1'),
+    t('curriculum.additionalInfoExamples.2'),
+    t('curriculum.additionalInfoExamples.3'),
+    t('curriculum.additionalInfoExamples.4'),
+    t('curriculum.additionalInfoExamples.5')
+]);
 
 const visibleLinks = ref(1);
 
