@@ -9,7 +9,19 @@
         "loginButton": "Login",
         "registerButton": "Cadastrar",
         "noAccount": "Não possui uma conta?",
-        "alreadyAccount": "Já possui uma conta?"
+        "alreadyAccount": "Já possui uma conta?",
+        "emptyFields": "Preencha todos os campos.",
+        "invalidEmail": "Digite um email válido.",
+        "emailNotFound": "Email não encontrado.",
+        "invalidPassword": "Senha incorreta.",
+        "nameRequired": "O nome é obrigatório.",
+        "emailRequired": "O email é obrigatório.",
+        "emailExists": "Este email já está cadastrado.",
+        "passwordRequired": "A senha é obrigatória.",
+        "passwordMin": "A senha deve ter no mínimo 6 caracteres.",
+        "passwordConfirmationRequired": "A confirmação de senha é obrigatória.",
+        "passwordConfirmation": "As senhas não coincidem.",
+        "validationError": "Não foi possível validar os dados."
     },
     "curriculum": {
         "personalData": "Dados Pessoais",

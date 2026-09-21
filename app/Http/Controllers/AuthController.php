@@ -26,8 +26,8 @@ class AuthController extends Controller {
         $request->session()->regenerate();
 
         return response()->json([
-            'message' => 'Usuário criado com sucesso.',
-            'user' => $user
+            'code' => 'register_success',
+            'user' => $user,
         ], 201);
     }
 
@@ -35,20 +35,27 @@ class AuthController extends Controller {
     {
         $data = $request->validated();
 
-        if (!Auth::attempt([
-            'email' => $data['email'],
-            'password' => $data['password'],
-        ])) {
+        $user = User::where('email', $data['email'])->first();
+
+        if (!$user) {
             return response()->json([
-                'message' => 'Email ou senha inválidos.',
+                'code' => 'email_not_found',
             ], 401);
         }
+
+        if (!Hash::check($data['password'], $user->password)) {
+            return response()->json([
+                'code' => 'invalid_password',
+            ], 401);
+        }
+
+        Auth::login($user);
 
         $request->session()->regenerate();
 
         return response()->json([
-            'message' => 'Login realizado com sucesso.',
-            'user' => Auth::user(),
+            'code' => 'login_success',
+            'user' => $user,
         ]);
     }
 
