@@ -1,7 +1,7 @@
 <template>
   <div>
     <FontSize/>
-    <div class="flex justify-around py-[20px]">
+    <div ref="actionsContainer" class="flex justify-around py-[20px]">
       <button class="border border-primaria font-bold p-[5px] w-[150px] rounded-[10px] cursor-pointer" @click="openModal">
         {{ t('curriculum.actions.preview') }}
       </button>
@@ -20,7 +20,7 @@
 </template>
 
 <script setup>
-import { ref, nextTick } from 'vue'
+import { ref, nextTick, onMounted } from 'vue'
 import axios from 'axios'
 import Curriculum from './Curriculum.vue'
 import CurriculumModal from './CurriculumModal.vue'
@@ -33,6 +33,17 @@ const { t } = useI18n()
 const isOpen = ref(false)
 const curriculum = ref(null)
 const curriculumComponent = ref(null)
+
+const actionsContainer = ref(null)
+
+onMounted(() => {
+    const fields = actionsContainer.value.querySelectorAll('button');
+
+    fields.forEach((field, index) => {
+        field.classList.add('field-enter');
+        field.style.animationDelay = `${4700 + (index * 100)}ms`;
+    });
+});
 
 const openModal = async () => {
   try {
@@ -91,10 +102,30 @@ const downloadPDF = async () => {
 }
 </script>
 
-<style>
+<style scoped>
+
+@keyframes field-enter {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+        filter: blur(4px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+        filter: blur(0);
+    }
+}
+
+.field-enter {
+    opacity: 0;
+    animation: field-enter 300ms ease-out forwards;
+}
+
 .offscreen {
-  position: absolute;
-  left: -9999px;
-  top: 0;
+    position: absolute;
+    left: -9999px;
+    top: 0;
 }
 </style>

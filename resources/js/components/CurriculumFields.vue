@@ -454,6 +454,6 @@ const addExperience = () => {
 
 .field-enter {
     opacity: 0;
-    animation: field-enter 700ms ease-out forwards;
+    animation: field-enter 300ms ease-out forwards;
 }
 </style>
