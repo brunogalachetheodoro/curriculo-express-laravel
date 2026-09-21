@@ -9,7 +9,19 @@
         "loginButton": "Login",
         "registerButton": "Register",
         "noAccount": "Don't have an account?",
-        "alreadyAccount": "Already have an account?"
+        "alreadyAccount": "Already have an account?",
+        "emptyFields": "Please fill in all fields.",
+        "invalidEmail": "Please enter a valid email.",
+        "emailNotFound": "Email not found.",
+        "invalidPassword": "Incorrect password.",
+        "nameRequired": "Name is required.",
+        "emailRequired": "Email is required.",
+        "emailExists": "This email is already registered.",
+        "passwordRequired": "Password is required.",
+        "passwordMin": "Password must be at least 6 characters long.",
+        "passwordConfirmationRequired": "Password confirmation is required.",
+        "passwordConfirmation": "Passwords do not match.",
+        "validationError": "The data could not be validated."
     },
     "curriculum": {
         "personalData": "Personal Information",
