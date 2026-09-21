@@ -10,9 +10,9 @@
       </button>
     </div>
   </div>
-
-  <CurriculumModal v-if="isOpen" :curriculum="curriculum" @close="isOpen = false" />
-
+  <Transition name="modal">
+    <CurriculumModal v-if="isOpen" :curriculum="curriculum" @close="isOpen = false" />
+  </Transition>
   <div class="offscreen" >
     <Curriculum ref="curriculumComponent" :curriculum="curriculum" :base-size="baseSize"/>
   </div>
@@ -127,5 +127,44 @@ const downloadPDF = async () => {
     position: absolute;
     left: -9999px;
     top: 0;
+}
+</style>
+
+<style>
+.modal-enter-active,
+.modal-leave-active {
+    transition: opacity 500ms ease-in-out;
+}
+
+.modal-enter-from,
+.modal-leave-to {
+    opacity: 0;
+}
+
+.modal-enter-to,
+.modal-leave-from {
+    opacity: 1;
+}
+
+.modal-enter-active .modal-content,
+.modal-leave-active .modal-content {
+    transition:
+        opacity 500ms ease-in-out,
+        transform 500ms ease-in-out,
+        filter 500ms ease-in-out;
+}
+
+.modal-enter-from .modal-content,
+.modal-leave-to .modal-content {
+    opacity: 0;
+    transform: translateY(50px);
+    filter: blur(4px);
+}
+
+.modal-enter-to .modal-content,
+.modal-leave-from .modal-content {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
 }
 </style>
