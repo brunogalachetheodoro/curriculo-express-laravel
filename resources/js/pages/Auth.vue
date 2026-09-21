@@ -1,7 +1,7 @@
 <template>
     <Topbar />
     <main class="bg-secundaria min-h-screen w-full text-primaria text-center flex flex-col justify-center items-center">        
-        <div class="w-full flex flex-col justify-center items-center transition-all duration-1000 ease-in-out" :class="leaving ? 'opacity-0 scale-95 blur-[3px]': 'opacity-100 scale-100 blur-0'">
+        <div class="w-full flex flex-col justify-center items-center transition-all duration-1000 ease-in-out"     :class="[leaving ? 'opacity-0 scale-95 blur-[3px]' : entering ? 'opacity-0 scale-95 blur-[3px]' : 'opacity-100 scale-100 blur-0']">
                 <div class="w-full overflow-hidden">
                     <div class="flex justify-center items-center w-[200%] transition-transform duration-1000 ease-in-out" :class="cadastrando ? '-translate-x-1/2' : 'translate-x-0'">
                         <div class="w-1/2 shrink-0 flex justify-center">
@@ -50,7 +50,7 @@
 
 <script setup>
     import Topbar from "../components/Topbar.vue";
-    import { ref } from 'vue';
+    import { ref, onMounted } from 'vue';
     import { useRouter } from 'vue-router';
     import { useI18n } from 'vue-i18n';
     import axios from 'axios';
@@ -63,6 +63,13 @@
     const loadingLogin = ref(false);
     const loadingRegister = ref(false);
     const leaving = ref(false);
+    const entering = ref(true);
+
+    onMounted(() => {
+        setTimeout(() => {
+            entering.value = false;
+        }, 100);
+    });
 
     const register = ref({
         name: '',
