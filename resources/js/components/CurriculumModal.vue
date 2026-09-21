@@ -1,11 +1,11 @@
 <template>
-  <div v-if="curriculum" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 text-left text-black">
-    <div class="bg-white rounded-2xl shadow-lg max-w-3xl w-full max-h-[90vh] overflow-y-auto p-6 relative">
+  <div class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 text-left text-black modal-overlay">    
+    <div class="bg-white rounded-2xl shadow-lg max-w-3xl w-full max-h-[90vh] overflow-y-auto p-6 relative modal-content">
       <div class="flex flex-col m-[15px] md:m-[50px]">
 
         <button
           @click="$emit('close')"
-          class="absolute top-3 right-3 text-gray-600 hover:text-red-500 text-xl"
+          class="absolute top-3 right-3 text-gray-600 hover:text-red-500 text-xl cursor-pointer"
         >
           ✕
         </button>
