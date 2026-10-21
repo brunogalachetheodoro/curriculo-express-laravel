@@ -1,5 +1,8 @@
 <template>
     <div ref="formContainer">
+        <!-- Geração de currículo com IA -->
+        <CurriculumAi :loading="isGeneratingAi" :error="aiError" :success="aiSuccess" @generate="generateCurriculumAi" />
+
         <!-- Dados Pessoais -->
         <div class="flex justify-center flex-col mt-[20px]">
             <h2 class="font-bold text-[18px]">{{ t('curriculum.personalData') }}</h2>
@@ -305,13 +308,33 @@
 </template>
 
 <script setup>
-import { ref, watch, onMounted, computed } from 'vue';
+import { ref, watch, onMounted, onUnmounted, computed, nextTick } from 'vue';
 import axios from 'axios';
 import { useI18n } from 'vue-i18n';
+import CurriculumAi from './CurriculumAi.vue';
 
 const formContainer = ref(null);
 
 const { t } = useI18n();
+
+const isGeneratingAi = ref(false);
+const aiError = ref('');
+const aiSuccess = ref('');
+
+// Campos que a IA pode adaptar; dados pessoais, links e históricos factuais permanecem intactos.
+const editableAiFields = [
+    'job_title', 'about', 'responsibilities', 'responsibilities_2',
+    ...Array.from({ length: 5 }, (_, index) => `hard_skill_${index + 1}`),
+    ...Array.from({ length: 5 }, (_, index) => `info_${index + 1}`),
+];
+
+// Contexto profissional sem nome, telefone, e-mail ou links pessoais.
+const contextAiFields = [
+    ...editableAiFields,
+    'company', 'position', 'start_date', 'end_date',
+    'company_2', 'position_2', 'start_date_2', 'end_date_2',
+    'course_name', 'education_institution', 'education_start_year', 'education_end_year',
+];
 
 const curriculum = ref({
     name: '',
@@ -359,6 +382,100 @@ const curriculum = ref({
     info_5: '',
 });
 
+// Somente os campos do formulário serão enviados ao backend.
+const curriculumFields = Object.keys(curriculum.value);
+
+// Controle do carregamento inicial e salvamentos.
+let debounceTimeout;
+let saveQueue = Promise.resolve();
+let initialLoadPromise = Promise.resolve();
+let isCurriculumLoaded = false;
+
+// Cada gravação aguarda a anterior, evitando que uma requisição antiga
+// seja concluída depois de uma gravação mais recente.
+const queueCurriculumSave = () => {
+    const snapshot = Object.fromEntries(
+        curriculumFields.map((field) => [field, curriculum.value[field] ?? ''])
+    );
+
+    const saveTask = saveQueue
+        .catch(() => {})
+        .then(() => axios.put('/curriculum', snapshot));
+
+    saveQueue = saveTask;
+
+    return saveTask;
+};
+
+// Salvamento imediato usado pelos botões Visualizar e Download.
+const saveCurriculumImmediately = async () => {
+    clearTimeout(debounceTimeout);
+
+    await initialLoadPromise;
+
+    if (!isCurriculumLoaded) {
+        throw new Error('Não foi possível carregar o currículo. Atualize a página e tente novamente.');
+    }
+
+    clearTimeout(debounceTimeout);
+
+    return queueCurriculumSave();
+};
+
+// Recebe a solicitação de salvamento do componente dos botões.
+const handleSaveNow = (event) => {
+    const detail = event.detail;
+
+    if (!detail || typeof detail.resolve !== 'function' || typeof detail.reject !== 'function') {
+        return;
+    }
+
+    detail.handled = true;
+
+    saveCurriculumImmediately()
+        .then(detail.resolve)
+        .catch(detail.reject);
+};
+
+const generateCurriculumAi = async (prompt) => {
+    if (isGeneratingAi.value || !prompt?.trim()) return;
+
+    isGeneratingAi.value = true;
+    aiError.value = '';
+    aiSuccess.value = '';
+
+    try {
+        const profile = Object.fromEntries(contextAiFields.map((field) => [field, curriculum.value[field] ?? '']));
+        const response = await axios.post('/curriculum/generate-ai', { prompt: prompt.trim(), profile });
+        const generated = response.data?.curriculum;
+
+        if (!generated || typeof generated !== 'object' || Array.isArray(generated)) {
+            throw new Error('A IA não retornou um currículo válido.');
+        }
+
+        const updates = Object.fromEntries(
+            editableAiFields
+                .filter((field) => typeof generated[field] === 'string' && generated[field].trim())
+                .map((field) => [field, generated[field].trim()])
+        );
+
+        if (Object.keys(updates).length === 0) {
+            throw new Error('A IA não retornou campos válidos para preencher.');
+        }
+
+        Object.assign(curriculum.value, updates);
+        aiSuccess.value = 'Campos atualizados! Revise as informações antes de gerar o currículo.';
+    } catch (error) {
+        if (error.response?.status === 404 || error.response?.status === 405) {
+            aiError.value = 'A interface está pronta, mas ainda precisamos criar a rota da IA no Laravel.';
+        } else {
+            aiError.value = error.response?.data?.message || error.message || 'Não foi possível gerar o currículo.';
+        }
+    } finally {
+        isGeneratingAi.value = false;
+    }
+};
+
 const loadCurriculum = async () => {
     try {
         const response = await axios.get('/curriculum-fields');
@@ -366,13 +483,21 @@ const loadCurriculum = async () => {
         if (response.data.curriculum) {
             Object.assign(curriculum.value, response.data.curriculum);
         }
+
+        // Aguarda a atualização reativa para não salvar novamente
+        // os dados que acabaram de ser carregados do banco.
+        await nextTick();
+
+        isCurriculumLoaded = true;
     } catch (error) {
         console.log('Error loading curriculum:', error.response?.data);
     }
 };
 
 onMounted(() => {
-    loadCurriculum();
+    window.addEventListener('curriculum:save-now', handleSaveNow);
+
+    initialLoadPromise = loadCurriculum();
 
     const fields = formContainer.value.querySelectorAll('input, textarea, h2, p, button');
 
@@ -382,25 +507,32 @@ onMounted(() => {
     });
 });
 
-let debounceTimeout;
+onUnmounted(() => {
+    window.removeEventListener('curriculum:save-now', handleSaveNow);
+    clearTimeout(debounceTimeout);
+});
 
+// O salvamento automático continua funcionando após 1 segundo.
+// Todas as requisições passam pela mesma fila de salvamento.
 watch(
     curriculum,
-    (newCurriculum)=>{
+    () => {
+        if (!isCurriculumLoaded) return;
+
         clearTimeout(debounceTimeout);
 
-        debounceTimeout = setTimeout(async () => {
-            try{
-                await axios.put('/curriculum', newCurriculum);
-                console.log('Curriculum saved successfully.');
-            } catch(error) {
-                console.log('error saving curriculum:', error.response?.data);
-            }
+        debounceTimeout = setTimeout(() => {
+            queueCurriculumSave()
+                .then(() => {
+                    console.log('Curriculum saved successfully.');
+                })
+                .catch((error) => {
+                    console.log('Error saving curriculum:', error.response?.data || error);
+                });
         }, 1000);
     },
-    {deep: true}
-)
-
+    { deep: true }
+);
 
 const hardSkillPlaceholders = computed(() => [
     t('curriculum.hardSkillExamples.1'),
@@ -433,8 +565,6 @@ const addExperience = () => {
         visibleExperiences.value++;
     }
 };
-
-
 </script>
 
 <style scoped>

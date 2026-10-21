@@ -16,6 +16,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth');
 Route::get('/curriculum-fields', [CurriculumController::class, 'show'])->middleware('auth');
 Route::put('/curriculum', [CurriculumController::class, 'update'])->middleware('auth');
 Route::put('/curriculum/font-size', [CurriculumController::class, 'updateFontSize'])->middleware('auth');
+Route::post('/curriculum/generate-ai', [CurriculumController::class, 'generateAi'])->middleware(['auth', 'throttle:5,1']);
 
 Route::get('/user/show-language', [UserController::class, 'showLanguage'])->middleware('auth');
 Route::put('/user/language', [UserController::class, 'updateLanguage'])->middleware('auth');
