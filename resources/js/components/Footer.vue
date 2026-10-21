@@ -1,22 +1,45 @@
 <template>
   <div>
-    <FontSize/>
+    <FontSize />
+
     <div ref="actionsContainer" class="flex justify-around py-[20px]">
-      <button class="border border-primaria font-bold p-[5px] w-[150px] rounded-[10px] cursor-pointer" @click="openModal">
-        {{ t('curriculum.actions.preview') }}
+      <button
+        class="border border-primaria font-bold p-[5px] w-[150px] rounded-[10px] cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
+        :disabled="isSaving"
+        @click="openModal"
+      >
+        {{ isSaving ? 'Salvando...' : t('curriculum.actions.preview') }}
       </button>
-      <button class="bg-primaria text-secundaria font-bold p-[5px] w-[150px] rounded-[10px] cursor-pointer" @click="downloadPDF">
-        {{ t('curriculum.actions.download') }}
+
+      <button
+        class="bg-primaria text-secundaria font-bold p-[5px] w-[150px] rounded-[10px] cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
+        :disabled="isSaving"
+        @click="downloadPDF"
+      >
+        {{ isSaving ? 'Aguarde...' : t('curriculum.actions.download') }}
       </button>
     </div>
-  </div>
-  <Transition name="modal">
-    <CurriculumModal v-if="isOpen" :curriculum="curriculum" @close="isOpen = false" />
-  </Transition>
-  <div class="offscreen" >
-    <Curriculum ref="curriculumComponent" :curriculum="curriculum" :base-size="baseSize"/>
+
+    <p v-if="actionError" role="alert" class="text-center text-[13px] text-red-500 mb-[15px]">
+      {{ actionError }}
+    </p>
   </div>
 
+  <Transition name="modal">
+    <CurriculumModal
+      v-if="isOpen"
+      :curriculum="curriculum"
+      @close="isOpen = false"
+    />
+  </Transition>
+
+  <div class="offscreen">
+    <Curriculum
+      ref="curriculumComponent"
+      :curriculum="curriculum"
+      :base-size="baseSize"
+    />
+  </div>
 </template>
 
 <script setup>
@@ -31,9 +54,10 @@ import { useI18n } from 'vue-i18n'
 const { t } = useI18n()
 
 const isOpen = ref(false)
+const isSaving = ref(false)
+const actionError = ref('')
 const curriculum = ref(null)
 const curriculumComponent = ref(null)
-
 const actionsContainer = ref(null)
 
 onMounted(() => {
@@ -45,65 +69,99 @@ onMounted(() => {
     });
 });
 
-const openModal = async () => {
-  try {
-    const response = await axios.get('/curriculum-fields')
+const saveCurriculumNow = () => {
+    return new Promise((resolve, reject) => {
+        const detail = {
+            handled: false,
+            resolve,
+            reject,
+        };
 
-    curriculum.value = response.data.curriculum
-    isOpen.value = true
-  } catch (error) {
-    console.log('Error loading curriculum:', error.response?.data)
-  }
-}
+        window.dispatchEvent(new CustomEvent('curriculum:save-now', { detail }));
+
+        if (!detail.handled) {
+            reject(new Error('O formulário do currículo não está disponível para salvar.'));
+        }
+    });
+};
+
+const saveAndLoadCurriculum = async () => {
+    await saveCurriculumNow();
+
+    const response = await axios.get('/curriculum-fields');
+
+    if (!response.data?.curriculum) {
+        throw new Error('Não foi possível carregar o currículo após o salvamento.');
+    }
+
+    curriculum.value = response.data.curriculum;
+};
+
+const openModal = async () => {
+    if (isSaving.value) return;
+
+    isSaving.value = true;
+    actionError.value = '';
+
+    try {
+        await saveAndLoadCurriculum();
+        isOpen.value = true;
+    } catch (error) {
+        actionError.value = error.response?.data?.message || error.message || 'Erro ao salvar o currículo.';
+        console.error('Error saving curriculum for preview:', error);
+    } finally {
+        isSaving.value = false;
+    }
+};
 
 const downloadPDF = async () => {
-  try {
-    const response = await axios.get('/curriculum-fields')
+    if (isSaving.value) return;
 
-    curriculum.value = response.data.curriculum
+    isSaving.value = true;
+    actionError.value = '';
 
-    await nextTick()
+    try {
+        await saveAndLoadCurriculum();
+        await nextTick();
 
-    const element = curriculumComponent.value?.$el
+        const element = curriculumComponent.value?.$el;
 
-    if (!element) {
-      console.log('Curriculum element not found.')
-      return
+        if (!element) {
+            throw new Error('O elemento do currículo não foi encontrado.');
+        }
+
+        const options = {
+            margin: 0,
+            filename: 'curriculo.pdf',
+            image: {
+                type: 'jpeg',
+                quality: 0.98,
+            },
+            html2canvas: {
+                scale: 2,
+                useCORS: true,
+            },
+            jsPDF: {
+                unit: 'mm',
+                format: 'a4',
+                orientation: 'portrait',
+            },
+        };
+
+        await html2pdf()
+            .set(options)
+            .from(element)
+            .save();
+    } catch (error) {
+        actionError.value = error.response?.data?.message || error.message || 'Erro ao gerar o PDF.';
+        console.error('Error generating PDF:', error);
+    } finally {
+        isSaving.value = false;
     }
-
-    const options = {
-      margin: 0,
-      filename: 'curriculo.pdf',
-      image: {
-        type: 'jpeg',
-        quality: 0.98,
-      },
-      html2canvas: {
-        scale: 2,
-        useCORS: true,
-      },
-      jsPDF: {
-        unit: 'mm',
-        format: 'a4',
-        orientation: 'portrait',
-      },
-    }
-
-    await html2pdf()
-      .set(options)
-      .from(element)
-      .save()
-  } catch (error) {
-    console.log(
-      'Error generating PDF:',
-      error.response?.data || error
-    )
-  }
-}
+};
 </script>
 
 <style scoped>
-
 @keyframes field-enter {
     from {
         opacity: 0;
